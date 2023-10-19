@@ -15,12 +15,15 @@ import (
 
 type contactsQuery struct {
 	Query string `form:"q"`
+	Page  int    `form:"page" default:"1"`
 }
 
 type contactsTemplateData struct {
 	Query    string
 	Contacts []model.Contact
 	Flashes  []interface{}
+	NextPage int
+	PrevPage int
 }
 
 type newTemplateData struct {
@@ -69,10 +72,13 @@ func main() {
 		if err := c.ShouldBindQuery(&query); err != nil {
 			panic(err)
 		}
+		if query.Page < 1 {
+			query.Page = 1
+		}
 
 		var contacts []model.Contact
 		if query.Query == "" {
-			contacts = repo.All()
+			contacts = repo.All(query.Page)
 		} else {
 			contacts = repo.Search(query.Query)
 		}
@@ -85,6 +91,8 @@ func main() {
 			Query:    query.Query,
 			Contacts: contacts,
 			Flashes:  flashes,
+			NextPage: query.Page + 1,
+			PrevPage: query.Page - 1,
 		})
 		if err != nil {
 			panic(err)

@@ -12,23 +12,44 @@
 <table>
 	<thead>
 		<tr>
-			<th>First</th> <th>Last</th> <th>Phone</th> <th>Email</th> <th></th>
+		<th>First</th> <th>Last</th> <th>Phone</th> <th>Email</th> <th></th>
 		</tr>
 	</thead>
 	<tbody>
 		{{ range .Contacts }}
 		<tr>
-			<td>{{ .First }}</td>
-			<td>{{ .Last }}</td>
-			<td>{{ .Phone }}</td>
-			<td>{{ .Email }}</td>
-			<td><a href="/contacts/{{ .ID }}/edit">Edit</a>
+		<td>{{ .First }}</td>
+		<td>{{ .Last }}</td>
+		<td>{{ .Phone }}</td>
+		<td>{{ .Email }}</td>
+		<td><a href="/contacts/{{ .ID }}/edit">Edit</a>
 				<a href="/contacts/{{ .ID }}">View</a></td>
 		</tr>
 		{{end}}
+		{{ if eq (len .Contacts) 10 }}
+    <tr>
+        <td colspan="5" style="text-align: center">
+            <span hx-target="closest tr"
+                  hx-trigger="revealed"
+                  hx-swap="outerHTML"
+                  hx-select="tbody > tr"
+                  hx-get="/contacts?page={{ .NextPage }}">Loading More...</span>
+        </td>
+    </tr>
+		{{ end }}
 	</tbody>
 </table>
 <p>
 	<a href="/contacts/new">Add Contact</a>
 </p>
+<div>
+	<span style="float: right">
+		{{ if gt .NextPage 1 }}
+		<a href="/contacts?page={{ .PrevPage }}">Previous</a>
+		{{ end }}
+		{{if eq (len .Contacts) 10}}
+		<a href="/contacts?page={{ .PrevPage }}">Next</a>
+		{{ end }}
+	</span>
+</div>
 {{end}}

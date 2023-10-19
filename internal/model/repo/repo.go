@@ -35,8 +35,218 @@ func New() *Repo {
 				Phone: "9012",
 				Email: "baz@gmail.com",
 			},
+			{
+				ID:    4,
+				First: "dave",
+				Last:  "smith",
+				Phone: "3456",
+				Email: "asdasd@daq.sd",
+			},
+			{
+				ID:    5,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    6,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    7,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    8,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    9,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    10,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    11,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    12,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    13,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    14,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    15,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    16,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    17,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    18,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    19,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    20,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    21,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    22,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    23,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    24,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    25,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    26,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    27,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    28,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    29,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    30,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    31,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    32,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
+			{
+				ID:    33,
+				First: "eve",
+				Last:  "jones",
+				Phone: "7890",
+				Email: "dasokdaso@d.e",
+			},
 		},
-		lastID: 3,
+		lastID: 33,
 	}
 }
 
@@ -50,8 +260,14 @@ func (r *Repo) Search(query string) []model.Contact {
 	return contacts
 }
 
-func (r *Repo) All() []model.Contact {
-	return r.contacts
+func (r *Repo) All(page int) []model.Contact {
+	pageSize := 10
+	start := (page - 1) * pageSize
+	end := start + pageSize
+	if end >= len(r.contacts) {
+		end = len(r.contacts) - 1
+	}
+	return r.contacts[start:end]
 }
 
 func (r *Repo) Save(contact model.Contact) {
