@@ -4,18 +4,26 @@
 		<legend>Contact Values</legend>
 		<p>
 			<label for="email">Email</label>
-			<input name="email" id="email" type="email" placeholder="Email" value="{{ .Email }}">
+			<input
+				name="email"
+				id="email"
+				type="email"
+				hx-get="/contacts/validate/email"
+				hx-target="next .error"
+				placeholder="Email"
+				hx-trigger="change, keyup delay:200ms"
+				value="{{ .Email }}">
 			<span class="error">{{ index .Errors "email" }}</span>
 		</p>
 	<p>
 			<label for="first_name">First Name</label>
 			<input name="first_name" id="first_name" type="text" placeholder="First Name" value="{{ .First}}">
-			<span class="error">{{ index .Errors "first" }}</span>
+			<span class="error">{{ index .Errors "first_name" }}</span>
 		</p>
 		<p>
 			<label for="last_name">Last Name</label>
 			<input name="last_name" id="last_name" type="text" placeholder="Last Name" value="{{ .Last}}">
-			<span class="error">{{index .Errors "last" }}</span>
+			<span class="error">{{index .Errors "last_name" }}</span>
 		</p>
 		<p>
 			<label for="phone">Phone</label>

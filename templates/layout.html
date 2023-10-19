@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8">
     <title>My Website</title>
+		<script src="https://unpkg.com/htmx.org@1.9.6"></script>
   </head>
-  <body>
+  <body hx-boost="true">
 		{{template "content" .}}
   </body>
 </html>
