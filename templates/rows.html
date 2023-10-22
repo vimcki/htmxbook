@@ -1,0 +1,19 @@
+{{ define "rows" }}
+{{ range . }}
+<tr>
+	<td><input type="checkbox" name="selected_contact_ids" value="{{ .ID }}"></td>
+	<td>{{ .First }}</td>
+	<td>{{ .Last }}</td>
+	<td>{{ .Phone }}</td>
+	<td>{{ .Email }}</td>
+	<td>
+		<a href="/contacts/{{ .ID }}/edit">Edit</a>
+		<a href="/contacts/{{ .ID }}">View</a>
+		<a href="#" hx-delete="/contacts/{{ .ID }}"
+			hx-swap="outerHTML swap:1s"
+			hx-confirm="Are you sure you want to delete this contact?"
+			hx-target="closest tr">Delete</a> 
+
+</tr>
+{{end}}
+{{ end }}

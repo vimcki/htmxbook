@@ -2,6 +2,7 @@ package repo
 
 import (
 	"strings"
+	"time"
 
 	"github.com/vimcki/htmxbook/internal/model"
 )
@@ -301,4 +302,9 @@ func (r *Repo) Delete(id int) {
 			return
 		}
 	}
+}
+
+func (r *Repo) Count() int {
+	time.Sleep(1 * time.Second)
+	return len(r.contacts)
 }
