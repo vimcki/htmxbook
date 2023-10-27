@@ -10,6 +10,7 @@ import (
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	archiverPkg "github.com/vimcki/htmxbook/internal/archiver"
 	"github.com/vimcki/htmxbook/internal/model"
 	"github.com/vimcki/htmxbook/internal/model/repo"
 )
@@ -25,6 +26,7 @@ type contactsTemplateData struct {
 	Flashes  []interface{}
 	NextPage int
 	PrevPage int
+	Archive  archiverPkg.Archive
 }
 
 type newTemplateData struct {
@@ -44,7 +46,7 @@ type editTemplateData struct {
 	Errors map[string]string
 }
 
-func AddMainApp(r *gin.Engine, repo *repo.Repo) {
+func AddMainApp(r *gin.Engine, repo *repo.Repo, archiver *archiverPkg.Archiver) {
 	contactsTemplate := template.Must(
 		template.ParseFiles(
 			"templates/layout.html",
@@ -94,7 +96,13 @@ func AddMainApp(r *gin.Engine, repo *repo.Repo) {
 
 		session := sessions.Default(c)
 		flashes := session.Flashes()
+		archive := archiver.Get(session.ID())
 		session.Save()
+
+		a := archiverPkg.Archive{
+			Status:   archive.Status,
+			Progress: archive.Progress * 100,
+		}
 
 		err := contactsTemplate.Execute(c.Writer, contactsTemplateData{
 			Query:    query.Query,
@@ -102,6 +110,7 @@ func AddMainApp(r *gin.Engine, repo *repo.Repo) {
 			Flashes:  flashes,
 			NextPage: query.Page + 1,
 			PrevPage: query.Page - 1,
+			Archive:  a,
 		})
 		if err != nil {
 			panic(err)

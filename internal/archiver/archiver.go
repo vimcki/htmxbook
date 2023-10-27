@@ -1,5 +1,7 @@
 package archiver
 
+import "time"
+
 const (
 	StatusWaiting  = "waiting"
 	StatusRunning  = "running"
@@ -20,7 +22,7 @@ func (a *Archiver) Get(id string) *Archive {
 	archive, found := a.archives[id]
 	if !found {
 		archive = &Archive{
-			status: StatusWaiting,
+			Status: StatusWaiting,
 		}
 		a.archives[id] = archive
 	}
@@ -28,23 +30,26 @@ func (a *Archiver) Get(id string) *Archive {
 }
 
 type Archive struct {
-	status   string
-	progrest float64
-}
-
-func (a *Archive) Status() string {
-	return a.status
-}
-
-func (a *Archive) Progress() float64 {
-	return a.progrest
+	Status   string
+	Progress float64
 }
 
 func (a *Archive) Run() {
+	a.Status = StatusRunning
+	go func() {
+		for a.Progress < 1 {
+			a.Progress = a.Progress + 0.01
+			time.Sleep(100 * time.Millisecond)
+		}
+		a.Status = StatusComplete
+	}()
 }
 
 func (a *Archive) Reset() {
+	a.Status = StatusWaiting
+	a.Progress = 0
 }
 
-func (a *Archive) ArchiveFile() {
+func (a *Archive) ArchiveFile() []byte {
+	return []byte(`{"hello": "world"}`)
 }
